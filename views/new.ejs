@@ -1,0 +1,11 @@
+<% include partials/header %>
+
+<h1>New Cafe</h1>
+
+<form action="/cafes" method="POST">
+    <input type="text" name="name" placeholder="Name">
+    <input type="text" name="image" placeholder="Image URL">
+    <button>Submit!</button>
+</form>
+
+<% include partials/footer %>

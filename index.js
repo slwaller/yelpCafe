@@ -1,7 +1,8 @@
 const express = require("express")
+const bodyParser = require("body-parser")
 const app = express()
 
-
+app.use(bodyParser.urlencoded({extended: true}))
 app.set("view engine", "ejs")
 
 app.get("/", function(req, res){
@@ -31,6 +32,18 @@ app.get("/cafes", function(req, res){
     ]
     res.render("cafes", {cafes: cafes})
 })
+
+app.post("/cafes", function(req, res){
+    const name = req.body.name
+    const image = req.body.image
+
+
+})
+
+app.get("/cafes/new", function(req, res){
+    res.render("new")
+})
+
 app.listen(3000, function(){
     console.log("Server up on port 3000!")
 })
