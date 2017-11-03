@@ -7,33 +7,50 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.set("view engine", "ejs")
 
 mongoose.connect("mongodb://localhost/yelp_cafe")
-//DUMMY DATA FOR NOW
-const cafes = [
-    {
-        name: "Beans N Cream",
-        image: "https://farm3.staticflickr.com/2002/2431818545_bc3de6e0fd.jpg"
-    },
-    {
-        name: "Lava Java",
-        image: "https://farm3.staticflickr.com/2742/4327593145_f273d3fd53.jpg"
-    },
-    {
-        name: "Calhoun Lounge",
-        image: "https://farm3.staticflickr.com/2826/9641299964_e4af33a207.jpg"
-    },
-    {
-        name: "The Den",
-        image: "https://farm4.staticflickr.com/3455/3237137264_84e618d70a.jpg"
-    }
-]
+
+//schema set up - will refactor and break up later
+const cafeSchema = new mongoose.Schema({
+    name: String,
+    image: String
+})
+
+const Cafe = mongoose.model("Cafe", cafeSchema)
+
+// Cafe.create(
+//     {
+//         name: "Calhoun Lounge",
+//         image: "https://farm3.staticflickr.com/2826/9641299964_e4af33a207.jpg"
+//     }, function(err, cafe){
+//     if(err){
+//         console.log(err)
+//     } else {
+//         console.log("New Cafe", cafe)
+//     }
+// })
+
+    // {
+    //     name: "Lava Java",
+    //     image: "https://farm3.staticflickr.com/2742/4327593145_f273d3fd53.jpg"
+    // },
+    // {
+    //     name: "The Den",
+    //     image: "https://farm4.staticflickr.com/3455/3237137264_84e618d70a.jpg"
+    // }
 
 app.get("/", function(req, res){
     res.render("landing")
 })
 
 app.get("/cafes", function(req, res){
+    //gt all cafes from db
+    Cafe.find({}, function(err, cafes){
+        if(err){
+            console.log(err)
+        } else {
+            res.render("cafes", {cafes: cafes})
+        }
+    })
 
-    res.render("cafes", {cafes: cafes})
 })
 
 app.post("/cafes", function(req, res){
@@ -43,8 +60,14 @@ app.post("/cafes", function(req, res){
         name: name,
         image: image
     }
-    cafes.push(newCafe)
-    res.redirect("/cafes")
+    //create new cafe and save to db
+    Cafe.create(newCafe, function(err, newCafe){
+        if(err){
+            console.log(err)
+        } else {
+            res.redirect("/cafes")
+        }
+    })
 })
 
 app.get("/cafes/new", function(req, res){
