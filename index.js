@@ -11,31 +11,26 @@ mongoose.connect("mongodb://localhost/yelp_cafe")
 //schema set up - will refactor and break up later
 const cafeSchema = new mongoose.Schema({
     name: String,
-    image: String
+    image: String,
+    description: String
 })
 
 const Cafe = mongoose.model("Cafe", cafeSchema)
 
 // Cafe.create(
 //     {
-//         name: "Calhoun Lounge",
-//         image: "https://farm3.staticflickr.com/2826/9641299964_e4af33a207.jpg"
-//     }, function(err, cafe){
-//     if(err){
-//         console.log(err)
-//     } else {
-//         console.log("New Cafe", cafe)
+//         name: "Grind House",
+//         image: "https://farm2.staticflickr.com/1331/539742161_2b0aed7190.jpg",
+//         description: "Terrific coffee, terrific WiFi"
+//     },
+//     function(err, cafe){
+//         if(err){
+//             console.log(err)
+//         } else {
+//             console.log("New: ", cafe)
+//         }
 //     }
-// })
-
-    // {
-    //     name: "Lava Java",
-    //     image: "https://farm3.staticflickr.com/2742/4327593145_f273d3fd53.jpg"
-    // },
-    // {
-    //     name: "The Den",
-    //     image: "https://farm4.staticflickr.com/3455/3237137264_84e618d70a.jpg"
-    // }
+// )
 
 app.get("/", function(req, res){
     res.render("landing")
@@ -72,6 +67,10 @@ app.post("/cafes", function(req, res){
 
 app.get("/cafes/new", function(req, res){
     res.render("new")
+})
+
+app.get("/cafes/:id", function(req, res){
+    res.render("show")
 })
 
 app.listen(3000, function(){
