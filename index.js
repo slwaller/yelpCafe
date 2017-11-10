@@ -4,6 +4,7 @@ const mongoose = require("mongoose")
 const app = express()
 
 const Cafe = require("./models/cafe")
+const Comment = require("./models/comment")
 const seedDB = require("./seeds")
 
 
@@ -23,7 +24,7 @@ app.get("/cafes", function(req, res){
         if(err){
             console.log(err)
         } else {
-            res.render("index", {cafes: cafes})
+            res.render("cafes/index", {cafes: cafes})
         }
     })
 
@@ -49,7 +50,7 @@ app.post("/cafes", function(req, res){
 })
 
 app.get("/cafes/new", function(req, res){
-    res.render("new")
+    res.render("cafes/new")
 })
 
 app.get("/cafes/:id", function(req, res){
@@ -58,11 +59,42 @@ app.get("/cafes/:id", function(req, res){
             console.log
         } else {
             console.log(foundCafe)
-            res.render("show", {cafe: foundCafe})
+            res.render("cafes/show", {cafe: foundCafe})
         }
     })
 })
 
+// Comments Routes
+
+app.get("/cafes/:id/comments/new", function(req, res){
+    Cafe.findById(req.params.id, function(err, cafe){
+        if(err){
+            console.log(err)
+        } else {
+            res.render("comments/new", {cafe: cafe})
+        }
+    })
+
+})
+
+app.post("/cafes/:id/comments", function(req, res){
+    Cafe.findById(req.params.id, function(err, cafe){
+        if(err){
+            console.log(err)
+            res.redirect("/cafes")
+        } else {
+            Comment.create(req.body.comment, function(err, comment){
+                if(err){
+                    console.log(err)
+                } else {
+                    cafe.comments.push(comment)
+                    cafe.save()
+                    res.redirect("/cafes/" + cafe._id)
+                }
+            })
+        }
+    })
+})
 
 
 app.listen(3000, function(){

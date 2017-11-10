@@ -1,4 +1,4 @@
-<% include partials/header %>
+<% include ../partials/header %>
 
 <h1><%= cafe.name %></h1>
 
@@ -6,8 +6,12 @@
 
 <p><%= cafe.description %></p>
 
+<p>
+    <a class="btn btn-success" href="/cafes/<%= cafe._id %>/comments/new">Add New Comment</a>
+</p>
+
 <% cafe.comments.forEach(function(comment){ %>
     <p><strong><%= comment.author %></strong> - <span><%= comment.text %></span></p>
 <% }) %>
 
-<% include partials/footer %>
+<% include ../partials/footer %>
