@@ -3,34 +3,12 @@ const bodyParser = require("body-parser")
 const mongoose = require("mongoose")
 const app = express()
 
+const Cafe = require("./models/cafe")
+
 app.use(bodyParser.urlencoded({extended: true}))
 app.set("view engine", "ejs")
 
 mongoose.connect("mongodb://localhost/yelp_cafe")
-
-//schema set up - will refactor and break up later
-const cafeSchema = new mongoose.Schema({
-    name: String,
-    image: String,
-    description: String
-})
-
-const Cafe = mongoose.model("Cafe", cafeSchema)
-
-// Cafe.create(
-//     {
-//         name: "Grind House",
-//         image: "https://farm2.staticflickr.com/1331/539742161_2b0aed7190.jpg",
-//         description: "Terrific coffee, terrific WiFi"
-//     },
-//     function(err, cafe){
-//         if(err){
-//             console.log(err)
-//         } else {
-//             console.log("New: ", cafe)
-//         }
-//     }
-// )
 
 app.get("/", function(req, res){
     res.render("landing")
@@ -42,7 +20,7 @@ app.get("/cafes", function(req, res){
         if(err){
             console.log(err)
         } else {
-            res.render("cafes", {cafes: cafes})
+            res.render("index", {cafes: cafes})
         }
     })
 
@@ -51,9 +29,11 @@ app.get("/cafes", function(req, res){
 app.post("/cafes", function(req, res){
     const name = req.body.name
     const image = req.body.image
+    const desc = req.body.description
     const newCafe = {
         name: name,
-        image: image
+        image: image,
+        description: desc
     }
     //create new cafe and save to db
     Cafe.create(newCafe, function(err, newCafe){
@@ -70,8 +50,16 @@ app.get("/cafes/new", function(req, res){
 })
 
 app.get("/cafes/:id", function(req, res){
-    res.render("show")
+    Cafe.findById(req.params.id, function(err, foundCafe){
+        if(err){
+            console.log
+        } else {
+            res.render("show", {cafe: foundCafe})
+        }
+    })
 })
+
+
 
 app.listen(3000, function(){
     console.log("Server up on port 3000!")
