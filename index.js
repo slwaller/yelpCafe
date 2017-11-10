@@ -4,11 +4,14 @@ const mongoose = require("mongoose")
 const app = express()
 
 const Cafe = require("./models/cafe")
+const seedDB = require("./seeds")
+
 
 app.use(bodyParser.urlencoded({extended: true}))
 app.set("view engine", "ejs")
 
 mongoose.connect("mongodb://localhost/yelp_cafe")
+seedDB()
 
 app.get("/", function(req, res){
     res.render("landing")
@@ -50,10 +53,11 @@ app.get("/cafes/new", function(req, res){
 })
 
 app.get("/cafes/:id", function(req, res){
-    Cafe.findById(req.params.id, function(err, foundCafe){
+    Cafe.findById(req.params.id).populate("comments").exec(function(err, foundCafe){
         if(err){
             console.log
         } else {
+            console.log(foundCafe)
             res.render("show", {cafe: foundCafe})
         }
     })
