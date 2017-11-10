@@ -1,17 +1,45 @@
 <% include ../partials/header %>
 
-<h1><%= cafe.name %></h1>
 
-<img src="<%= cafe.image %>">
-
-<p><%= cafe.description %></p>
-
-<p>
-    <a class="btn btn-success" href="/cafes/<%= cafe._id %>/comments/new">Add New Comment</a>
-</p>
-
-<% cafe.comments.forEach(function(comment){ %>
-    <p><strong><%= comment.author %></strong> - <span><%= comment.text %></span></p>
-<% }) %>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <p class="lead">YelpCafe</p>
+            <div class="list-group">
+                <li class="list-group-item active">Stuff 1</li>
+                <li class="list-group-item">Stuff 2</li>
+                <li class="list-group-item">Stuff 3</li>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="thumbnail">
+                <img class="img-responsive" src="<%= cafe.image %>">
+                <div class="caption">
+                    <h4 class="pull-right">6am - 9pm</h4>
+                    <h4 class><a href=""><%= cafe.name %></a></h4>
+                    <p><%= cafe.description %></p>
+                </div>
+            </div>
+            <div class="well">
+                <div class="text-right">
+                        <a class="btn btn-success" href="/cafes/<%= cafe._id %>/comments/new">Add New Comment</a>
+                </div>
+                <hr>
+                <% cafe.comments.forEach(function(comment){ %>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <strong><%= comment.author %></strong>
+                            <span class="pull-right">10 days ago</span>
+                            <p>
+                                <%= comment.text %>
+                            </p>
+                        </div>
+                    </div>
+                <% }) %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <% include ../partials/footer %>
