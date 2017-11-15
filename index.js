@@ -84,7 +84,7 @@ app.get("/cafes/:id", function(req, res){
 
 // Comments Routes
 
-app.get("/cafes/:id/comments/new", function(req, res){
+app.get("/cafes/:id/comments/new", isLoggedIn, function(req, res){
     Cafe.findById(req.params.id, function(err, cafe){
         if(err){
             console.log(err)
@@ -149,6 +149,17 @@ app.post("/login", passport.authenticate("local",
     }
 )
 
+app.get("/logout", function(req, res){
+    req.logout()
+    res.redirect("/cafes")
+})
+
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated()){
+        return next()
+    }
+    res.redirect("/login")
+}
 
 app.listen(3000, function(){
     console.log("Server up on port 3000!")
