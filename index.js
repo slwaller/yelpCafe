@@ -141,9 +141,13 @@ app.get("/login", function(req, res){
     res.render("login")
 })
 
-app.post("/login", function(req, res){
-    res.send("loginpost")
-})
+app.post("/login", passport.authenticate("local", 
+    {
+        successRedirect: "/cafes",
+        failureRedirect: "/login"
+    }), function(req, res){
+    }
+)
 
 
 app.listen(3000, function(){
