@@ -54,12 +54,4 @@ router.get("/:id", function(req, res){
     })
 })
 
-// Middleware
-function isLoggedIn(req, res, next){
-    if(req.isAuthenticated()){
-        return next()
-    }
-    res.redirect("/login")
-}
-
 module.exports = router
