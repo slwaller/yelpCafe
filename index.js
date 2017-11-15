@@ -1,8 +1,11 @@
 const express = require("express")
 const bodyParser = require("body-parser")
 const mongoose = require("mongoose")
+const passport = require("passport")
+const LocalStrategy = require("passport-local")
 const app = express()
 
+const User = require("./models/user")
 const Cafe = require("./models/cafe")
 const Comment = require("./models/comment")
 const seedDB = require("./seeds")
@@ -14,6 +17,20 @@ app.set("view engine", "ejs")
 
 mongoose.connect("mongodb://localhost/yelp_cafe")
 seedDB()
+
+// PASSPORT CONFIG
+
+app.use(require("express-session")({
+    secret: "Psst secrets",
+    resave: false,
+    saveUninitialized: false
+}))
+
+app.use(passport.initialize())
+app.use(passport.session())
+passport.use(new LocalStrategy(User.authenticate()))
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
 
 app.get("/", function(req, res){
     res.render("landing")
@@ -95,6 +112,37 @@ app.post("/cafes/:id/comments", function(req, res){
             })
         }
     })
+})
+
+// Auth Routes
+
+app.get("/register", function(req, res){
+    res.render("register")
+})
+
+app.post("/register", function(req, res){
+    const username = req.body.username
+    const newUser = new User({
+        username: username
+    })
+    const password = req.body.password
+    User.register(newUser, password, function(err, user){
+        if(err){
+            console.log(err)
+            return res.render("register")
+        }
+        passport.authenticate("local")(req, res, function(){
+            res.redirect("/cafes")
+        })
+    })
+})
+
+app.get("/login", function(req, res){
+    res.render("login")
+})
+
+app.post("/login", function(req, res){
+    res.send("loginpost")
 })
 
 
