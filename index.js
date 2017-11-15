@@ -95,7 +95,7 @@ app.get("/cafes/:id/comments/new", isLoggedIn, function(req, res){
 
 })
 
-app.post("/cafes/:id/comments", function(req, res){
+app.post("/cafes/:id/comments", isLoggedIn, function(req, res){
     Cafe.findById(req.params.id, function(err, cafe){
         if(err){
             console.log(err)
