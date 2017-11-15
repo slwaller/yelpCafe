@@ -16,6 +16,7 @@ router.get("/new", isLoggedIn, function(req, res){
 
 })
 
+// Comment Post Route
 router.post("/", isLoggedIn, function(req, res){
     Cafe.findById(req.params.id, function(err, cafe){
         if(err){
