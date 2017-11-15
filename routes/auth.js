@@ -4,10 +4,12 @@ const passport = require("passport")
 
 const User = require("../models/user")
 
+// Register Route
 router.get("/register", function(req, res){
     res.render("register")
 })
 
+// Post Route to save to DB
 router.post("/register", function(req, res){
     const username = req.body.username
     const newUser = new User({
@@ -25,10 +27,12 @@ router.post("/register", function(req, res){
     })
 })
 
+// Login Route
 router.get("/login", function(req, res){
     res.render("login")
 })
 
+// Post route to check if user exists
 router.post("/login", passport.authenticate("local", 
     {
         successRedirect: "/cafes",
@@ -37,6 +41,7 @@ router.post("/login", passport.authenticate("local",
     }
 )
 
+// Log out Route
 router.get("/logout", function(req, res){
     req.logout()
     res.redirect("/cafes")
