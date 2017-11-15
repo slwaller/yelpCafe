@@ -4,6 +4,7 @@ const router = express.Router()
 const Cafe = require("../models/cafe")
 const Comment = require("../models/comment")
 
+// Cafe Index Route
 router.get("/", function(req, res){
     //gt all cafes from db
     Cafe.find({}, function(err, cafes){
@@ -15,6 +16,7 @@ router.get("/", function(req, res){
     })
 
 })
+
 
 router.post("/", function(req, res){
     const name = req.body.name
@@ -35,10 +37,12 @@ router.post("/", function(req, res){
     })
 })
 
+// Create Cafe
 router.get("/new", function(req, res){
     res.render("cafes/new")
 })
 
+// Cafe Show Page
 router.get("/:id", function(req, res){
     Cafe.findById(req.params.id).populate("comments").exec(function(err, foundCafe){
         if(err){
@@ -49,6 +53,7 @@ router.get("/:id", function(req, res){
         }
     })
 })
+
 
 function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){
