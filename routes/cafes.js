@@ -17,7 +17,7 @@ router.get("/", function(req, res){
 
 })
 
-
+// Post to Cafe Route when we create
 router.post("/", function(req, res){
     const name = req.body.name
     const image = req.body.image
