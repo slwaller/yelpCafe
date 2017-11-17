@@ -22,16 +22,22 @@ router.post("/", isLoggedIn, function(req, res){
     const name = req.body.name
     const image = req.body.image
     const desc = req.body.description
+    const author = {
+        id: req.user._id,
+        username: req.user.username
+    }
     const newCafe = {
         name: name,
         image: image,
-        description: desc
+        description: desc,
+        author: author
     }
     //create new cafe and save to db
     Cafe.create(newCafe, function(err, newCafe){
         if(err){
             console.log(err)
         } else {
+            console.log(newCafe)
             res.redirect("/cafes")
         }
     })
@@ -53,6 +59,14 @@ router.get("/:id", function(req, res){
         }
     })
 })
+
+// Edit cafe
+
+router.get("/:id/edit", function(req, res){
+    res.send("Edit cafe")
+})
+
+// Update cafe
 
 // Middleware
 function isLoggedIn(req, res, next){

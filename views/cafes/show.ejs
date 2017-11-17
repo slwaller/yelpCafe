@@ -18,11 +18,12 @@
                     <h4 class="pull-right">6am - 9pm</h4>
                     <h4 class><a href=""><%= cafe.name %></a></h4>
                     <p><%= cafe.description %></p>
+                    <p><em>Submitted By <%= cafe.author.username %></em></p>
                 </div>
             </div>
             <div class="well">
                 <div class="text-right">
-                        <a class="btn btn-success" href="/cafes/<%= cafe._id %>/comments/new">Add New Comment</a>
+                    <a class="btn btn-success" href="/cafes/<%= cafe._id %>/comments/new">Add New Comment</a>
                 </div>
                 <hr>
                 <% cafe.comments.forEach(function(comment){ %>
