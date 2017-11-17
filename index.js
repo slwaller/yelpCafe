@@ -1,10 +1,10 @@
 const express = require("express")
+const app = express()
 const bodyParser = require("body-parser")
 const mongoose = require("mongoose")
 const passport = require("passport")
 const LocalStrategy = require("passport-local")
 const methodOverride = require("method-override")
-const app = express()
 
 const User = require("./models/user")
 const Cafe = require("./models/cafe")
@@ -14,6 +14,7 @@ const seedDB = require("./seeds")
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.static(__dirname + "/public"))
 app.use(methodOverride("_method"))
+
 app.set("view engine", "ejs")
 
 mongoose.connect("mongodb://localhost/yelp_cafe")

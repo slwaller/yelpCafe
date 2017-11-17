@@ -63,11 +63,25 @@ router.get("/:id", function(req, res){
 // Edit cafe
 
 router.get("/:id/edit", function(req, res){
-    res.send("Edit cafe")
+    Cafe.findById(req.params.id, function(err, foundCafe){
+        if(err){
+            res.redirect("/cafes")
+        } else {
+            res.render("cafes/edit", {cafe: foundCafe})
+        }
+    })
 })
 
 // Update cafe
-
+router.put("/:id", function(req, res){
+    Cafe.findByIdAndUpdate(req.params.id, req.body.cafe, function(err, updatedCafe){
+        if(err){
+            res.redirect("/cafes")
+        } else {
+            res.redirect("/cafes/" + req.params.id)
+        }
+    })
+})
 // Middleware
 function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){
