@@ -4,7 +4,7 @@ const router = express.Router({mergeParams: true})
 const Cafe = require("../models/cafe")
 const Comment = require("../models/comment")
 
-// Create Comment
+// Comment form
 router.get("/new", isLoggedIn, function(req, res){
     Cafe.findById(req.params.id, function(err, cafe){
         if(err){
@@ -16,7 +16,7 @@ router.get("/new", isLoggedIn, function(req, res){
 
 })
 
-// Comment Post Route
+// Comment create
 router.post("/", isLoggedIn, function(req, res){
     Cafe.findById(req.params.id, function(err, cafe){
         if(err){
@@ -27,6 +27,9 @@ router.post("/", isLoggedIn, function(req, res){
                 if(err){
                     console.log(err)
                 } else {
+                    comment.author.id = req.user._id
+                    comment.author.username = req.user.username
+                    comment.save()
                     cafe.comments.push(comment)
                     cafe.save()
                     res.redirect("/cafes/" + cafe._id)

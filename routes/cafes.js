@@ -18,7 +18,7 @@ router.get("/", function(req, res){
 })
 
 // Post to Cafe Route when we create
-router.post("/", function(req, res){
+router.post("/", isLoggedIn, function(req, res){
     const name = req.body.name
     const image = req.body.image
     const desc = req.body.description
@@ -32,13 +32,13 @@ router.post("/", function(req, res){
         if(err){
             console.log(err)
         } else {
-            res.redirect("")
+            res.redirect("/cafes")
         }
     })
 })
 
 // Create Cafe
-router.get("/new", function(req, res){
+router.get("/new", isLoggedIn, function(req, res){
     res.render("cafes/new")
 })
 
@@ -53,5 +53,13 @@ router.get("/:id", function(req, res){
         }
     })
 })
+
+// Middleware
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated()){
+        return next()
+    }
+    res.redirect("/login")
+}
 
 module.exports = router
