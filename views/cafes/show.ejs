@@ -19,10 +19,12 @@
                     <h4 class><a href=""><%= cafe.name %></a></h4>
                     <p><%= cafe.description %></p>
                     <p><em>Submitted By <%= cafe.author.username %></em></p>
-                    <a class="btn btn-warning" href="/cafes/<%= cafe._id %>/edit">Edit</a>
-                    <form id="delete-form" action="/cafes/<%= cafe._id %>?_method=DELETE" method="POST">
-                        <button class="btn btn-danger">Delete</button>
-                    </form>
+                    <% if(currentUser && cafe.author.id.equals(currentUser._id)){ %>
+                        <a class="btn btn-warning" href="/cafes/<%= cafe._id %>/edit">Edit</a>
+                        <form id="delete-form" action="/cafes/<%= cafe._id %>?_method=DELETE" method="POST">
+                            <button class="btn btn-danger">Delete</button>
+                        </form>
+                    <% } %>
                 </div>
             </div>
             <div class="well">
