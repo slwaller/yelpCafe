@@ -82,6 +82,19 @@ router.put("/:id", function(req, res){
         }
     })
 })
+
+//Delete Cafe
+
+router.delete("/:id", function(req, res){
+    Cafe.findByIdAndRemove(req.params.id, function(err){
+        if(err){
+            res.redirect("/cafes")
+        } else {
+            res.redirect("/cafes")
+        }
+    })
+})
+
 // Middleware
 function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){
