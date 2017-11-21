@@ -21,7 +21,7 @@
                     <p><em>Submitted By <%= cafe.author.username %></em></p>
                     <% if(currentUser && cafe.author.id.equals(currentUser._id)){ %>
                         <a class="btn btn-warning" href="/cafes/<%= cafe._id %>/edit">Edit</a>
-                        <form id="delete-form" action="/cafes/<%= cafe._id %>?_method=DELETE" method="POST">
+                        <form class="delete-form" action="/cafes/<%= cafe._id %>?_method=DELETE" method="POST">
                             <button class="btn btn-danger">Delete</button>
                         </form>
                     <% } %>
@@ -40,6 +40,14 @@
                             <p>
                                 <%= comment.text %>
                             </p>
+                            <a class="btn btn-xs btn-warning" 
+                               href="/cafes/<%= cafe._id %>/comments/<%= comment._id %>/edit">
+                               Edit
+                            </a>
+                            <form class="delete-form" action="/cafes/<%= cafe._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                                <button class="btn btn-xs btn-danger">Delete</button>
+                            </form>
+                         </a>
                         </div>
                     </div>
                 <% }) %>
