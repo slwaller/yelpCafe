@@ -44,14 +44,19 @@ router.post("/", middleware.isLoggedIn, function(req, res){
 
 // comment edit
 router.get("/:comment_id/edit", middleware.checkCommentOwnership, function(req, res){
-    Comment.findById(req.params.comment_id, function(err, foundComment){
-        if(err){
-            res.redirect("back")
-        } else {
-            res.render("comments/edit", {cafe_id: req.params.id, comment: foundComment})        
+    Cafe.findById(req.params.id, function(err, foundCafe){
+        if(err || !foundCafe){
+            req.flash("error", "Cafe not found")
+            return res.redirect("back")
         }
+        Comment.findById(req.params.comment_id, function(err, foundComment){
+            if(err){
+                res.redirect("back")
+            } else {
+                res.render("comments/edit", {cafe_id: req.params.id, comment: foundComment})        
+            }
+        })
     })
-
 })
 
 // comment update

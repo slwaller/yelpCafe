@@ -51,8 +51,9 @@ router.get("/new", middleware.isLoggedIn, function(req, res){
 // Cafe Show Page
 router.get("/:id", function(req, res){
     Cafe.findById(req.params.id).populate("comments").exec(function(err, foundCafe){
-        if(err){
-            console.log
+        if(err || !foundCafe){
+            req.flash("error", "Cafe not found")
+            res.redirect("back")
         } else {
             res.render("cafes/show", {cafe: foundCafe})
         }
