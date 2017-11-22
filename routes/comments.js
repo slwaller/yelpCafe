@@ -26,13 +26,15 @@ router.post("/", middleware.isLoggedIn, function(req, res){
         } else {
             Comment.create(req.body.comment, function(err, comment){
                 if(err){
-                    console.log(err)
+                    req.flash("error", "Something went wrong")
+                    res.redirect("back")
                 } else {
                     comment.author.id = req.user._id
                     comment.author.username = req.user.username
                     comment.save()
                     cafe.comments.push(comment)
                     cafe.save()
+                    req.flash("success", "Comment added!")
                     res.redirect("/cafes/" + cafe._id)
                 }
             })
@@ -68,6 +70,7 @@ router.delete("/:comment_id", middleware.checkCommentOwnership, function(req, re
         if(err){
             res.redirect("back")
         } else {
+            req.flash("success", "Comment removed")
             res.redirect("/cafes/" + req.params.id)
         }
     })
