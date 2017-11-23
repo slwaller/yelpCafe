@@ -85,8 +85,10 @@ router.put("/:id", middleware.checkCafeOwnership, function(req, res){
 router.delete("/:id", middleware.checkCafeOwnership, function(req, res){
     Cafe.findByIdAndRemove(req.params.id, function(err){
         if(err){
+            req.flash("error", "Something went wrong")
             res.redirect("/cafes")
         } else {
+            req.flash("success", "Cafe Deleted")
             res.redirect("/cafes")
         }
     })
