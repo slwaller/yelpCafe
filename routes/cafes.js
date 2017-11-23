@@ -22,6 +22,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
     const name = req.body.name
     const image = req.body.image
     const desc = req.body.description
+    const address = req.body.address
     const author = {
         id: req.user._id,
         username: req.user.username
@@ -29,6 +30,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
     const newCafe = {
         name: name,
         image: image,
+        address: address,
         description: desc,
         author: author
     }
@@ -37,7 +39,6 @@ router.post("/", middleware.isLoggedIn, function(req, res){
         if(err){
             console.log(err)
         } else {
-            console.log(newCafe)
             res.redirect("/cafes")
         }
     })
