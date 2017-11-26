@@ -12,8 +12,9 @@ const Cafe = require("./models/cafe")
 const Comment = require("./models/comment")
 const seedDB = require("./seeds")
 
-// mongoose.connect("mongodb://localhost/yelp_cafe")
-mongoose.connect("mongodb://Sam:yelpcafe@ds115866.mlab.com:15866/yelpcafe")
+
+mongoose.connect(process.env.DATABASEURL)
+
 
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.static(__dirname + "/public"))
