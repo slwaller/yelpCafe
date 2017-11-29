@@ -3,6 +3,8 @@ const mongoose = require("mongoose")
 const cafeSchema = new mongoose.Schema({
     name: String,
     address: String,
+    lat: Number,
+    lng: Number,
     image: String,
     description: String,
     author: {
