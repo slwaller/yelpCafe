@@ -45,7 +45,7 @@ app.use(function(req, res, next){
     res.locals.success = req.flash("success")
     next()
 })
-
+app.locals.moment = require('moment')
 passport.use(new LocalStrategy(User.authenticate()))
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
